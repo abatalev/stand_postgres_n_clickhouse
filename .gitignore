@@ -1,3 +1,4 @@
 docker-compose.yaml
 target/
 .idea/
+prj2hash
