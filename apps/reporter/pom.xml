@@ -8,13 +8,14 @@
 		<version>2.7.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>com.abatalev.pgnch</groupId>
 	<artifactId>reporter</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>reporter</name>
 	<description>Reporter</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>8</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

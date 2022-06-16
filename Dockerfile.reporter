@@ -1,7 +1,8 @@
 FROM maven as builder
-COPY apps/reporter/pom.xml /opt/app/pom.xml
-COPY apps/reporter/src /opt/app/src
-RUN  cd /opt/app; mvn clean install
-FROM openjdk:11
-COPY --from=builder /opt/app/target/app.jar /opt/app/app.jar
+COPY apps/reporter/pom.xml /work/pom.xml
+RUN cd /work; mvn -B dependency:go-offline 
+COPY apps/reporter/src/ /work/src/
+RUN cd /work; mvn -D maven.test.skip=true clean install 
+FROM ghcr.io/abatalev/liberica@sha256:9c5591bb8c69fc77d726913df4cfe89c7de36e9efd358595c305e1b0271fa160
+COPY --from=builder /work/target/app.jar /opt/app/app.jar
 ENTRYPOINT [ "java", "-jar", "/opt/app/app.jar" ]
