@@ -1,0 +1,18 @@
+spring:
+  main:
+    banner-mode: "off"
+  datasource:
+    main:
+      url: "jdbc:postgresql://db:5432/postgres"
+      username: postgres
+      password: example
+    archive:
+      driver-class-name: com.clickhouse.jdbc.ClickHouseDriver
+      url: jdbc:clickhouse://archive:8123/default
+      username: default
+      password:
+      connectionTimeout: 67000
+      hikari:
+        connectionTimeout: 67000
+        idleTimeout: 600000
+        maxLifetime: 1800000

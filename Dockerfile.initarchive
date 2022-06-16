@@ -1,0 +1,5 @@
+FROM yandex/clickhouse-client
+COPY apps/initarchive/ /opt/archive
+RUN  chmod +x /opt/archive/init.sh
+WORKDIR /opt/archive
+ENTRYPOINT [ "/opt/archive/init.sh" ]

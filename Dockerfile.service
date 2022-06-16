@@ -1,0 +1,8 @@
+FROM maven as builder
+COPY apps/service/pom.xml /opt/app/pom.xml
+COPY apps/service/src /opt/app/src
+
+RUN  cd /opt/app; mvn clean install
+FROM openjdk:11
+COPY --from=builder /opt/app/target/app.jar /opt/app/app.jar
+ENTRYPOINT [ "java", "-jar", "/opt/app/app.jar" ]

@@ -1,0 +1,45 @@
+version: "2"
+
+services:
+  db:
+    image: postgres:13.4-alpine3.14
+    environment:
+      POSTGRES_PASSWORD: example
+
+  initdb:
+    image: abatalev/pgch-initdb
+    depends_on:
+    - db
+
+  archive: 
+    image: yandex/clickhouse-server
+
+  initarchive:
+    image: abatalev/pgch-initarchive
+    depends_on:
+    - archive    
+
+  service:
+    image: abatalev/pgch-service
+    depends_on:
+    - db
+
+  archiver:
+    image: abatalev/pgch-archiver
+    depends_on:
+    - db
+    - archive                 
+
+  reporter:
+    image: abatalev/pgch-reporter
+    ports:
+    - 9999:8080
+    depends_on:
+    - db
+    - archive
+
+  generator:
+    image: abatalev/pgch-generator
+    depends_on:
+    - service
+    - reporter
