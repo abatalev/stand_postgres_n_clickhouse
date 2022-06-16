@@ -1,7 +1,8 @@
 FROM maven as builder
-COPY apps/archiver/pom.xml /opt/app/pom.xml
-COPY apps/archiver/src /opt/app/src
-RUN  cd /opt/app; mvn clean install
+COPY apps/archiver/pom.xml /work/pom.xml
+RUN cd /work; mvn -B dependency:go-offline 
+COPY apps/archiver/src /work/src
+RUN  cd /work; mvn clean install
 FROM openjdk:11
-COPY --from=builder /opt/app/target/app.jar /opt/app/app.jar
+COPY --from=builder /work/target/app.jar /opt/app/app.jar
 ENTRYPOINT [ "java", "-jar", "/opt/app/app.jar" ]
