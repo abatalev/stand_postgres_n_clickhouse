@@ -1,8 +1,8 @@
-FROM maven as builder
+FROM maven:3.6.3 as builder
 COPY apps/service/pom.xml /work/pom.xml
 RUN cd /work; mvn -B dependency:go-offline 
 COPY apps/service/src /work/src
 RUN  cd /work; mvn clean install
-FROM openjdk:11
+FROM ghcr.io/abatalev/liberica:11-jre-alpine3.9-ttf
 COPY --from=builder /work/target/app.jar /opt/app/app.jar
 ENTRYPOINT [ "java", "-jar", "/opt/app/app.jar" ]

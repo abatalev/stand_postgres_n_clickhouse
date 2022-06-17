@@ -1,8 +1,8 @@
-FROM maven as builder
+FROM maven:3.6.3 as builder
 COPY apps/reporter/pom.xml /work/pom.xml
 RUN cd /work; mvn -B dependency:go-offline 
 COPY apps/reporter/src/ /work/src/
 RUN cd /work; mvn -D maven.test.skip=true clean install 
-FROM ghcr.io/abatalev/liberica@sha256:9c5591bb8c69fc77d726913df4cfe89c7de36e9efd358595c305e1b0271fa160
+FROM ghcr.io/abatalev/liberica:11-jre-alpine3.9-ttf
 COPY --from=builder /work/target/app.jar /opt/app/app.jar
 ENTRYPOINT [ "java", "-jar", "/opt/app/app.jar" ]
